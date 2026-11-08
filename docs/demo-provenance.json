@@ -1,0 +1,42 @@
+{
+  "source": "https://github.com/keijiro/InfiniteScan",
+  "author": "Lee Perry-Smith / Infinite Realities",
+  "license": "CC BY 3.0",
+  "adapted": true,
+  "description": "Unfitted reference mesh extracted directly from the editor; no uploaded photographs or photo-fitted models.",
+  "controlPoints": 128,
+  "groups": [
+    {
+      "id": "face",
+      "name": "Face shape"
+    },
+    {
+      "id": "eyes",
+      "name": "Eyes & brows"
+    },
+    {
+      "id": "nose",
+      "name": "Nose"
+    },
+    {
+      "id": "mouth",
+      "name": "Mouth"
+    },
+    {
+      "id": "ears",
+      "name": "Ears"
+    },
+    {
+      "id": "head",
+      "name": "Head & hair"
+    },
+    {
+      "id": "neck",
+      "name": "Neck"
+    },
+    {
+      "id": "shoulders",
+      "name": "Shoulders"
+    }
+  ]
+}

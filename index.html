@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#edf4f7">
+  <meta name="description" content="Build and refine a 3D portrait in ASCII. Fit your photos, sculpt the details, and export an interactive model for the web.">
+  <meta property="og:title" content="ASCII Face Lab — Shape a face. Keep its character.">
+  <meta property="og:description" content="A browser-based studio for character-based 3D portraits, with guided photo fitting and portable exports.">
+  <meta property="og:type" content="website">
+  <title>ASCII Face Lab — Shape a face. Keep its character.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script defer src="assets/demo-runtime.js"></script>
+  <script defer src="assets/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell nav-row">
+      <a class="brand" href="index.html" aria-label="ASCII Face Lab home"><span class="brand-mark" aria-hidden="true">[a]</span><span>ASCII Face Lab</span></a>
+      <nav aria-label="Main navigation"><a href="#workflow">How it works</a><a href="guide.html">Guide</a><a class="button button-small" href="editor/index.html">Open studio</a></nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="live-note"><span aria-hidden="true"></span>A portrait studio in your browser</p>
+        <h1 id="hero-title">Shape a face.<br>Keep its character.</h1>
+        <p class="hero-description">Build and refine a 3D portrait in ASCII. Fit your photos, sculpt the details, and take an interactive model to the web.</p>
+        <div class="hero-actions"><a class="button" href="editor/index.html">Open the studio <span aria-hidden="true">↗</span></a><a class="text-link" href="guide.html">Start with the guide</a></div>
+        <p class="privacy-note"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.4 3 7.6 7.5 9.5 4.5-1.9 7.5-5.1 7.5-9.5V6L12 3Z"/><path d="m8.5 12 2.4 2.4 4.6-4.8"/></svg>No install. Your photos stay on your device.</p>
+        <div class="hero-facts"><p><strong>128</strong> sculpting points</p><p><strong>8</strong> photo angles</p><p><strong>1</strong> portable HTML export</p></div>
+      </div>
+      <figure class="portrait-study">
+        <div class="portrait-chamber">
+          <div class="chamber-heading"><span>Live reference study</span><span class="chamber-tag">3D / ASCII</span></div>
+          <div class="portrait-view" id="heroPortrait" tabindex="0" role="group" aria-label="Interactive 3D ASCII reference portrait. Drag to rotate, use arrow keys, or choose a view below."><pre aria-hidden="true">Loading the reference portrait…</pre></div>
+          <div class="portrait-controls"><div class="view-switch" role="group" aria-label="Reference portrait angle"><button type="button" data-demo-view="0" aria-pressed="false">Front</button><button type="button" data-demo-view="-35" aria-pressed="true">¾</button><button type="button" data-demo-view="-90" aria-pressed="false">Profile</button></div><div class="zoom-controls"><button type="button" data-demo-zoom="out" aria-label="Zoom reference portrait out">−</button><button type="button" data-demo-zoom="in" aria-label="Zoom reference portrait in">+</button></div></div>
+          <figcaption>Drag to explore. The model is made of characters.</figcaption>
+        </div>
+      </figure>
+    </section>
+
+    <section class="workflow-section section-space" id="workflow" aria-labelledby="workflow-title">
+      <div class="shell">
+        <div class="section-intro"><h2 id="workflow-title">A portrait, in three moves.</h2><p>Start with the reference model or bring your own photographs. Refine what matters, then choose how to share it.</p></div>
+        <div class="workflow-grid">
+          <article class="workflow-step"><span class="step-number" aria-label="Step 1">1</span><h3>Fit your photos</h3><p>Add a front photo and any extra angles. Align the frames, detect the features, and apply the fit together.</p><div class="angle-ribbon" aria-hidden="true"><span>0°</span><span>45°</span><span>90°</span><span>…</span><span>360°</span></div><a class="text-link" href="guide.html#photo-setup">Choose useful angles</a></article>
+          <article class="workflow-step"><span class="step-number" aria-label="Step 2">2</span><h3>Make it your own</h3><p>Work with one group of control points at a time. Adjust the face, head, hair, ears, neck, and shoulders.</p><div class="point-strip" aria-hidden="true"><i></i><span></span><i></i><span></span><i></i><span></span><i></i></div><a class="text-link" href="guide.html#sculpt">Learn the controls</a></article>
+          <article class="workflow-step"><span class="step-number" aria-label="Step 3">3</span><h3>Take the characters with you</h3><p>Save a still frame as text, or export a standalone HTML model that people can rotate in their browser.</p><div class="file-pair" aria-hidden="true"><span>.txt</span><span>.html</span></div><a class="text-link" href="#exports">Try the exports</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space shell features-section" aria-labelledby="features-title">
+      <div class="features-lead"><h2 id="features-title">Keep the big picture.<br>Shape the small things.</h2><p>The view stays in ASCII while you work. Move between the overall silhouette and the features that make a face feel specific.</p><a class="button button-outline" href="editor/index.html">Explore the controls</a></div>
+      <div class="feature-explorer">
+        <div class="feature-tabs" role="tablist" aria-label="Sculpting tool groups"><button type="button" id="tab-face" role="tab" aria-controls="feature-panel" aria-selected="true" data-feature="face">Face</button><button type="button" id="tab-detail" role="tab" aria-controls="feature-panel" aria-selected="false" tabindex="-1" data-feature="detail">Details</button><button type="button" id="tab-head" role="tab" aria-controls="feature-panel" aria-selected="false" tabindex="-1" data-feature="head">Head</button><button type="button" id="tab-neck" role="tab" aria-controls="feature-panel" aria-selected="false" tabindex="-1" data-feature="neck">Neck</button></div>
+        <div id="feature-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-face"><span class="feature-glyph" aria-hidden="true">( · · )</span><h3>From cheekbones to chin.</h3><p>Refine the face outline, jaw corners, and chin with grouped points. Face width and head width have separate controls.</p><p class="feature-tip">Select a point in the list to turn the model toward it.</p></div>
+        <div class="explorer-footer"><span>Grouped controls</span><span>Undo &amp; redo</span><span>Fine keyboard adjustments</span></div>
+      </div>
+    </section>
+
+    <section class="export-section section-space" id="exports" aria-labelledby="export-title">
+      <div class="shell export-layout">
+        <div><h2 id="export-title">Your portrait.<br>A file you can keep.</h2><p>The interactive export contains the model and its viewer in a single HTML file. Embed it in a page or open it on its own.</p><div class="export-actions"><button class="button button-light" type="button" id="sampleHtml">Download sample HTML</button><button class="button button-ghost" type="button" id="sampleTxt">Download sample text</button></div><p class="export-caption">Samples use the licensed reference model shown above.</p><p id="exportStatus" class="status-message" role="status"></p></div>
+        <div class="code-example"><div class="code-heading"><span>Embed the exported file</span><button type="button" id="copyEmbed" aria-label="Copy the HTML embed example">Copy</button></div><pre tabindex="0" aria-label="HTML iframe embed example"><code id="embedCode">&lt;iframe
+  src="portrait.html"
+  title="Interactive ASCII portrait"
+  width="640"
+  height="480"
+  style="max-width:100%;border:0"
+&gt;&lt;/iframe&gt;</code></pre><a href="guide.html#export">Read the export guide</a></div>
+      </div>
+    </section>
+
+    <section class="section-space shell faq-section" aria-labelledby="faq-title">
+      <div><h2 id="faq-title">Before you start.</h2><p>A few useful things to know about fitting, editing, and sharing a portrait.</p></div>
+      <div class="faq-list">
+        <details><summary>How many photos do I need?</summary><p>One clear front photo is enough to start. A matching profile and a three-quarter photo give the fit more information about depth and head shape. You can add up to eight views around the head.</p></details>
+        <details><summary>Are my photos uploaded?</summary><p>Photos are analyzed in your browser and are not sent to a photo-processing server. The detector downloads its model files and runtimes when you first use photo fitting.</p></details>
+        <details><summary>What happens to angles I do not photograph?</summary><p>With “Estimate features from missing angles” enabled, the studio fills missing views using the front photo, symmetry, and the reference head. These areas are estimates; extra photographs help constrain them.</p></details>
+        <details><summary>Will it work offline?</summary><p>The reference model, manual sculpting, and exported HTML viewer work without a detector download. Photo fitting needs internet access to load its external runtimes and models. Opening an export does not require the editor.</p></details>
+        <details><summary>Are my edits saved automatically?</summary><p>Edits stay in the current editor tab. Export an HTML model before closing or reloading the page. Undo and redo work during the editing session.</p></details>
+      </div>
+    </section>
+    <section class="closing-cta shell"><div><h2>Make something with character.</h2><p>The reference model is ready. Start sculpting.</p></div><a class="button" href="editor/index.html">Open the studio <span aria-hidden="true">↗</span></a></section>
+  </main>
+  <footer class="site-footer shell"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">[a]</span><span>ASCII Face Lab</span></a><div><a href="guide.html">Guide</a><a href="credits.html">Credits &amp; licenses</a><a href="https://github.com/IoanU/ascii-face-lab" rel="noopener">Source repository</a></div><p>Built for the browser. Rendered in characters.</p></footer>
+</body>
+</html>
