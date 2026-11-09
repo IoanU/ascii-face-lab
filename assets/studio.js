@@ -17,7 +17,9 @@
   for(const input of photoInputs){
     input.canvas.tabIndex=0;input.canvas.setAttribute('role','group');
     const caption=input.caption.textContent;
-    input.canvas.setAttribute('aria-label',caption+'. Photo frame. Use arrow keys to pan and plus or minus to zoom.');
+    const updateFrameLabel=()=>input.canvas.setAttribute('aria-label',caption+(input.image?'. Uploaded photo. Use arrow keys to pan and plus or minus to zoom.':'. Reference example. Upload a photo matching this angle.'));
+    new MutationObserver(updateFrameLabel).observe(input.canvas,{attributes:true,attributeFilter:['data-empty']});
+    updateFrameLabel();
     input.remove.setAttribute('aria-label','Remove photo: '+caption);
     input.canvas.addEventListener('keydown',event=>{
       if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-'].includes(event.key))return;
@@ -31,5 +33,8 @@
   }
   let changed=false;const originalRemember=remember;remember=function(){changed=true;return originalRemember()};
   addEventListener('beforeunload',event=>{if(changed){event.preventDefault();event.returnValue=''}});
-  document.fonts?.ready.then(()=>render());
+  document.fonts?.ready.then(()=>{
+    render();
+    if(photoDialog.open)photoInputs.filter(input=>!input.image).forEach(input=>drawFramedPhoto(input));
+  });
 })();

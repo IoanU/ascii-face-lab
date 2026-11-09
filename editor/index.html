@@ -83,6 +83,7 @@ dialog p{margin:8px 0}
 <h2 id="photoTitle">Fit from photos</h2>
 <p>Upload a front photo (0°) and any of the other seven angles. At +45° and +90°, the nose points toward the right of the image. At −45° and −90°, it points left. Continue in the same direction for the 135° view.</p>
 <p>Keep the same expression and frame the head and neck down to the collar.</p>
+<p class="photo-dialog-hint">The reference heads show which angle to upload in each empty frame. Your photo replaces the example.</p>
 <div class="photo-grid">
 <figure><figcaption id="photoCaption">0° · Front</figcaption><canvas id="photoCanvas" width="400" height="480" aria-label="Front"></canvas><input id="photoFile" type="file" accept="image/*" aria-labelledby="photoCaption"><label class="photo-rotation">Rotate <input id="photoRotate" type="range" min="-180" max="180" step="1" value="0" aria-describedby="photoCaption" disabled></label><button type="button" id="photoRemove" class="photo-remove" disabled>Remove photo</button></figure>
 <figure><figcaption id="right45Caption">+45° · Front three-quarter · nose right</figcaption><canvas id="right45Canvas" width="400" height="480" aria-label="Front three-quarter · nose right"></canvas><input id="right45File" type="file" accept="image/*" aria-labelledby="right45Caption"><label class="photo-rotation">Rotate <input id="right45Rotate" type="range" min="-180" max="180" step="1" value="0" aria-describedby="right45Caption" disabled></label><button type="button" id="right45Remove" class="photo-remove" disabled>Remove photo</button></figure>
@@ -2445,6 +2446,9 @@ const sideInputs=[["right45", 45, "+45° · Front three-quarter · nose right"],
 }));
 let sideViews=[],frontView=null;
 const photoInputs=[frontInput,...sideInputs];
+// Keep the orientation examples independent of the edited or photo-fitted head.
+const photoReferenceMesh={vertices:baseVertices,triangles:faceTriangles,normals:controlRestNormals,skinCount:baseVertices.length};
+const photoReferenceFrames=new Map();
 let detector,busy=false,detected;
 const fitIds=[
   10,338,297,332,251,389,356,454,323,361,288,397,365,379,400,377,152,
@@ -2498,10 +2502,33 @@ function invalidateDetection(){
   drawPhoto();
 }
 
+function drawPhotoReference(input,ctx){
+  const {width,height}=input.canvas,cols=62,rows=58;
+  const fontSize=Math.min((width-32)/(cols*.61),(height-56)/rows);
+  ctx.save();
+  ctx.fillStyle='#142f43';ctx.fillRect(0,0,width,height);
+  ctx.font=fontSize+'px '+getComputedStyle(view).fontFamily;
+  ctx.textBaseline='top';
+  const cellWidth=ctx.measureText('M').width,aspect=cellWidth/fontSize;
+  const degrees=input.degrees??0,key=degrees+':'+aspect.toFixed(5);
+  if(!photoReferenceFrames.has(key)){
+    const cam=camera(degrees*Math.PI/180,0,cols,rows,aspect,.99);
+    photoReferenceFrames.set(key,drawMesh(photoReferenceMesh,cam,cols,rows).split('\n'));
+  }
+  const left=(width-cols*cellWidth)/2,top=(height-40-rows*fontSize)/2;
+  ctx.fillStyle='#c9e2e4';
+  photoReferenceFrames.get(key).forEach((line,row)=>ctx.fillText(line,left,top+row*fontSize));
+  ctx.font='18px '+getComputedStyle(photoStatus).fontFamily;
+  ctx.textAlign='center';ctx.fillStyle='#bcd4dc';
+  ctx.fillText('Example view',width/2,height-30);
+  ctx.restore();
+}
+
 function drawFramedPhoto(input){
   const {canvas,image,frame}=input,ctx=canvas.getContext('2d');
+  canvas.dataset.empty=String(!image);
   ctx.fillStyle='#0b100e';ctx.fillRect(0,0,canvas.width,canvas.height);
-  if(!image)return ctx;
+  if(!image){drawPhotoReference(input,ctx);return ctx}
   const angle=frame.angle*Math.PI/180,c=Math.abs(Math.cos(angle)),s=Math.abs(Math.sin(angle));
   const width=image.width*c+image.height*s,height=image.width*s+image.height*c;
   const scale=frame.zoom*Math.min(canvas.width/width,canvas.height/height);
@@ -2545,7 +2572,10 @@ function drawPhoto(){
   }
 }
 
-$('photo').onclick=()=>{photoDialog.showModal();drawPhoto()};
+$('photo').onclick=()=>{
+  photoDialog.showModal();drawPhoto();
+  sideInputs.filter(input=>!input.image).forEach(input=>drawSide(input));
+};
 $('closePhoto').onclick=()=>{if(!busy)photoDialog.close()};
 photoDialog.addEventListener('cancel',e=>{if(busy)e.preventDefault()});
 function photoProgress(value,message){
